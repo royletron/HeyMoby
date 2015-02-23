@@ -1,0 +1,3 @@
+[submodule "public/moby"]
+	path = public/moby
+	url = https://github.com/royletron/moby

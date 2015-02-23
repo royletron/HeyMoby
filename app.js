@@ -118,6 +118,7 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
  app.get('/collections/add', collectionController.add);
  app.post('/collections/add', collectionController.create);
  app.get('/collection/:slug', collectionController.show);
+ app.get('/collection/:slug/play', collectionController.play);
 
 /**
  * Item routes.

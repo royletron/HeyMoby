@@ -65,12 +65,29 @@ exports.show = function(req, res, next) {
 		{
 			console.log(collection);
 			var s = _.sortBy(collection.items, function(item){ return item.name });
-			var t = _.groupBy(s, function(item){ return item.name.charAt(0); });
+			var t = _.groupBy(s, function(item){ return item.name.charAt(0).toLowerCase(); });
 			res.render('collection/show', {
 				title: collection.name,
 				collection: collection,
 				grouped: t,
-				colors: {Z: 'green accent-1', W: 'orange lighten-5', C: 'brown lighten-5', Y: 'amber lighten-5', E: 'cyan lighten-5', F: 'pink lighten-5', G: 'deep-orange lighten-5', H: 'blue-grey lighten-5', I: 'purple lighten-5', J: 'blue lighten-5', K: 'teal lighten-5', L: 'lime lighten-5', M: 'yellow lighten-5', N: 'grey lighten-5', O: 'red lighten-5', P: ' deep-purple lighten-5', Q: 'indigo lighten-5', R: 'light-blue lighten-5', S: 'light-green lighten-5', T: 'green accent-1', U: 'teal accent-1', V: 'deep-orange accent-1', B: 'amber accent-1', X: 'yellow accent-1', D: 'lime accent-1', A: 'cyan accent-1'}
+				colors: {z: 'green accent-1', w: 'orange lighten-5', c: 'brown lighten-5', y: 'amber lighten-5', e: 'cyan lighten-5', f: 'pink lighten-5', g: 'deep-orange lighten-5', h: 'blue-grey lighten-5', i: 'purple lighten-5', j: 'blue lighten-5', k: 'teal lighten-5', l: 'lime lighten-5', m: 'yellow lighten-5', n: 'grey lighten-5', o: 'red lighten-5', p: ' deep-purple lighten-5', q: 'indigo lighten-5', r: 'light-blue lighten-5', s: 'light-green lighten-5', t: 'green accent-1', u: 'teal accent-1', v: 'deep-orange accent-1', b: 'amber accent-1', x: 'yellow accent-1', d: 'lime accent-1', a: 'cyan accent-1'}
+			})
+		}
+	})
+}
+
+exports.play = function(req, res, next) {
+	Collection.findOne({slug: req.params.slug}).populate('user').exec(function(err, collection){
+		if(collection == null){
+			res.status(400);
+		}
+		else
+		{
+			var s = _.sortBy(collection.items, function(item){ return item.name });
+			var t = _.groupBy(s, function(item){ return item.name.charAt(0).toLowerCase(); });
+			res.render('collection/play', {
+				title: 'Play '+collection.name,
+				grouped: t
 			})
 		}
 	})
