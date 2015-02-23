@@ -1,0 +1,15 @@
+extends ../layout
+
+block header
+  .green.darken-1.header
+    .container.white-text
+      h2 The Collections
+
+block content
+  if collections.length == 0
+    p There are no collections at present.
+  else
+    .collection
+      for collection in collections
+        a.collection-item(href="/collection/#{collection.slug}")= collection.name
+  a.waves-effect.waves-light.btn(href="/collections/add") Add collection

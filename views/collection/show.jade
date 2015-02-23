@@ -1,0 +1,29 @@
+extends ../layout
+
+block header
+	.yellow.darken-3.header
+		.container.white-text
+			h2
+				= collection.name
+				small &nbsp;by #{collection.user.profile.name}
+	.container
+		p.flow-text= collection.description
+		if collection.items.length == 0
+			p <strong>No items yet</strong>
+		.row
+	if collection.items.length > 0
+		each items, key in grouped
+			div(class=colors[key])
+				.container
+					.row(style="margin-bottom:0px;")
+						.col.s6.m3
+							h1.blue-grey-text.text-darken-4= key
+						for item in items
+							.col.s6.m3
+								.card
+									.card-image
+										img(src=item.images[0].url)
+									.card-content
+										p= item.name
+		.container(style="margin-top: 10px")
+			a.waves-effect.waves-light.btn(href="/collection/#{collection.slug}/items/add") Add item

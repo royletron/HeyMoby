@@ -1,5 +1,4 @@
-$(document).ready(function() {
-
-  // Place JavaScript code here...
-
+$(document).ready(function(){
+	$(".dropdown-button").dropdown();
+    $('.button-collapse').sideNav();
 });

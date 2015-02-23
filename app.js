@@ -19,7 +19,6 @@ var path = require('path');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
-var connectAssets = require('connect-assets');
 
 /**
  * Controllers (route handlers).
@@ -28,6 +27,8 @@ var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
+var collectionController = require('./controllers/collection');
+var itemController = require('./controllers/item');
 
 /**
  * API keys and Passport configuration.
@@ -55,9 +56,6 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(compress());
-app.use(connectAssets({
-  paths: [path.join(__dirname, 'public/css'), path.join(__dirname, 'public/js')]
-}));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -109,6 +107,23 @@ app.post('/account/profile', passportConf.isAuthenticated, userController.postUp
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
+
+
+/**
+ * Collection routes.
+ */
+
+ app.get('/collections', collectionController.index)
+ app.get('/collections/add', collectionController.add);
+ app.post('/collections/add', collectionController.create);
+ app.get('/collection/:slug', collectionController.show);
+
+/**
+ * Item routes.
+ */
+
+ app.get('/collection/:slug/items/add', itemController.add);
+ app.post('/collection/:slug/items/add', itemController.create);
 
 /**
  * API examples routes.
