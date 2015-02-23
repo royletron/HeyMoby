@@ -20,10 +20,10 @@ block header
 							h1.blue-grey-text.text-darken-4= key
 						for item in items
 							.col.s6.m3
-								.card
+								.card.small.tiny
 									.card-image
-										img(src=item.images[0].url)
+										img(src=item.images[0].thumb)
 									.card-content
 										p= item.name
-		.container(style="margin-top: 10px")
-			a.waves-effect.waves-light.btn(href="/collection/#{collection.slug}/items/add") Add item
+	.container(style="margin-top: 10px")
+		a.waves-effect.waves-light.btn(href="/collection/#{collection.slug}/items/add") Add item

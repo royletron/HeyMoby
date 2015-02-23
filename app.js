@@ -29,6 +29,7 @@ var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var collectionController = require('./controllers/collection');
 var itemController = require('./controllers/item');
+var uploadController = require('./controllers/upload')
 
 /**
  * API keys and Passport configuration.
@@ -59,7 +60,7 @@ app.use(compress());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(multer({ dest: path.join(__dirname, 'uploads') }));
+app.use(multer({ dest: path.join(__dirname, 'public/uploads') }));
 app.use(expressValidator());
 app.use(methodOverride());
 app.use(cookieParser());
@@ -124,6 +125,14 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 
  app.get('/collection/:slug/items/add', itemController.add);
  app.post('/collection/:slug/items/add', itemController.create);
+
+/**
+ * Upload routes.
+ */
+
+// app.get('/upload', uploadController.index);
+app.post('/upload', uploadController.upload)
+// app.delete('/uploaded/files/:name', uploadController.delete)
 
 /**
  * API examples routes.

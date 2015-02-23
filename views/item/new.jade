@@ -6,21 +6,23 @@ block header
 			h2 Add Item to #{collection.name}
 
 block content
-	form(action='/collection/#{collection.slug}/items/add', method='POST')
+	form(action='/collection/#{collection.slug}/items/add', method='POST', enctype="multipart/form-data")
 		input(type='hidden', name='_csrf', value=_csrf)
 		.input-field
 			input(id="name", name="name", type="text", class="validate")
 			label(for="name") Name
 		h5 Images
 		#images
-			.input-field
-				i.mdi-image-camera-alt.prefix
-				input(name="images[0]", type="text")
-				label(for="images[0]") url
+			.file-field.input-field
+				input.file-path.validate(type="text")
+				.btn
+					span File
+					input(name="files", type="file")
 		h5 Sounds
 		#sounds
-			.input-field
-				i.mdi-av-volume-up.prefix
-				input(name="sounds[0]", type="text")
-				label(for="sounds[0]") url
+			.file-field.input-field
+				input.file-path.validate(type="text")
+				.btn
+					span File
+					input(name="files", type="file")
 		button(action="submit", class="waves-effect waves-light btn") Add Item

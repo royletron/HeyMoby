@@ -63,6 +63,7 @@ exports.show = function(req, res, next) {
 		}
 		else
 		{
+			console.log(collection);
 			var s = _.sortBy(collection.items, function(item){ return item.name });
 			var t = _.groupBy(s, function(item){ return item.name.charAt(0); });
 			res.render('collection/show', {

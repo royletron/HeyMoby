@@ -3,6 +3,7 @@ var slugin = require('slugin');
 
 var itemAssetSchema = new mongoose.Schema({
   url: {type:String, required: true},
+  thumb: String,
   user: {type: mongoose.Schema.ObjectId, ref: 'User', required: true}
 })
 

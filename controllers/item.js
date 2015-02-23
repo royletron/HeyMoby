@@ -1,5 +1,7 @@
 var Collection = require('../models/Collection');
+var async = require('async');
 var _ = require('underscore');
+var easyimg = require('easyimage');
 
 /**
  * GET /collections/add
@@ -20,8 +22,6 @@ exports.add = function(req, res, next) {
 exports.create = function(req, res, next){
 	Collection.findOne({slug: req.params.slug}, function(err, collection){
 		if(err) return next(err);
-		
-		console.log(req.body);
 
 		var item = {
 			name: req.body.name,
@@ -30,25 +30,42 @@ exports.create = function(req, res, next){
 			user: req.user.id,
 			item_collection: collection._id
 		}
+		var files = req.files.files;
+		if(!Array.isArray(files));
+			files = [files];
 
-		_.each(req.body.sounds, function(sound, idx){
-			if(sound != '')
-				item.sounds.push({url: sound, user: req.user.id})
-		});
-
-		_.each(req.body.images, function(image, idx){
-			if(image != '')
-				item.images.push({url: image, user: req.user.id});
-		})
-
-		collection.items.push(item);
-
-		console.log(collection);
-
-		collection.save(function(err){
+		async.eachSeries(files, function(file, cb){
+			console.log(file);
+			if((file.mimetype == "image/png") || (file.mimetype == "image/jpg") || (file.mimetype == "image/jpeg")){
+				easyimg.rescrop({
+		     src:file.path, dst:'public/uploads/thumbs/'+file.name,
+		     width:250, height:250,
+		     x:0, y:0
+			  }).then(
+			    function(image) {
+			    	console.log(image);
+						item.images.push({url: "/uploads/"+file.name, thumb: '/uploads/thumbs/'+file.name, user: req.user.id});
+						cb();
+			    },
+			    function (err) {
+			      cb('Upload problem');
+			    }
+			  );
+			}
+			else{
+				item.sounds.push({url: "/uploads/"+file.name, user: req.user.id})
+				cb();
+			}
+		}, function(err){
+			console.log(item);
 			if(err) return next(err);
-      req.flash('success', { msg: 'Success! '+item.name+' created.' });
-			res.redirect('/collection/'+collection.slug);
-		})
+			collection.items.push(item);
+
+			collection.save(function(err){
+				if(err) return next(err);
+	      req.flash('success', { msg: 'Success! '+item.name+' created.' });
+				res.redirect('/collection/'+collection.slug);
+			})
+		});
 	});
 }
