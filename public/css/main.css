@@ -33,5 +33,9 @@ footer{
 }
 
 .card.tiny{
-  height:210px;
+  height:180px;
+}
+
+.card.tiny .card-image{
+  height: 120px;
 }

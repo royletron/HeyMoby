@@ -1,11 +1,15 @@
 extends ../layout
 
 block header
-	.yellow.darken-3.header
+	.yellow.darken-3.header(style="margin-bottom:0px;")
 		.container.white-text
 			h2
 				= collection.name
 				small &nbsp;by #{collection.user.profile.name}
+	.yellow.lighten-4.header(style="padding-bottom:0px;")
+			.container
+				a.waves-effect.waves-light.btn.light-blue.darken-1(href="/collection/#{collection.slug}/items/add") <i class="mdi-content-add left"></i>Add item
+
 	.container
 		p.flow-text= collection.description
 		if collection.items.length == 0
@@ -20,10 +24,10 @@ block header
 							h1.blue-grey-text.text-darken-4= key.toUpperCase()
 						for item in items
 							.col.s6.m3
-								.card.small.tiny
-									.card-image
-										img(src=item.images[0].thumb)
-									.card-content
-										p= item.name
+								a(href="/collection/#{collection.slug}/item/#{item._id}")
+									.card.small.tiny
+										.card-image
+											img(src=item.images[0].thumb)
+										.card-content
+											p= item.name
 	.container(style="margin-top: 10px")
-		a.waves-effect.waves-light.btn(href="/collection/#{collection.slug}/items/add") Add item
