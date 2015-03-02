@@ -1,12 +1,7 @@
 extends ../play
 
-block content
-	h1#title Loading...
-	h2#info hold 'yer orses'
-	#img-holder
-		img#img
-
 block dictionary
 	script.
 		var dictionary = !{JSON.stringify(grouped)};
+		var mobile = #{md.mobile() != null};
 		start();

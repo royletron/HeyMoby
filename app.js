@@ -20,6 +20,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 
+var MobileDetect = require('mobile-detect')
+
 /**
  * Controllers (route handlers).
  */
@@ -83,6 +85,10 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(function(req, res, next) {
+  res.locals.md = new MobileDetect(req.headers['user-agent']);
+  next();
+})
+app.use(function(req, res, next) {
   if (/api/i.test(req.path)) req.session.returnTo = req.path;
   next();
 });
@@ -126,6 +132,7 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 
  app.get('/collection/:slug/items/add', itemController.add);
  app.post('/collection/:slug/items/add', itemController.create);
+ app.get('/collection/:slug/item/:id', itemController.show);
 
 /**
  * Upload routes.

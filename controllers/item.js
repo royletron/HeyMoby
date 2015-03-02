@@ -69,3 +69,18 @@ exports.create = function(req, res, next){
 		});
 	});
 }
+
+exports.show = function(req, res, next){
+	Collection.findOne({slug: req.params.slug}, function(err, collection){
+        if(err) return next(err);
+        _.each(collection.items, function(item, idx){
+            if(item._id == req.params.id){
+                res.render('item/show', {
+                    item: item,
+                    title: item.name
+                })
+                console.log(item)
+            }
+        })
+    })
+}
