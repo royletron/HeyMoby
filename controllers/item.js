@@ -77,6 +77,7 @@ exports.show = function(req, res, next){
             if(item._id == req.params.id){
                 res.render('item/show', {
                     item: item,
+                    collection: collection,
                     title: item.name
                 })
                 console.log(item)
