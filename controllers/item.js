@@ -74,13 +74,12 @@ exports.show = function(req, res, next){
 	Collection.findOne({slug: req.params.slug}, function(err, collection){
         if(err) return next(err);
         _.each(collection.items, function(item, idx){
-            if(item._id == req.params.id){
+            if(String(item._id) == String(req.params.id)){
                 res.render('item/show', {
                     item: item,
                     collection: collection,
                     title: item.name
-                })
-                console.log(item)
+                });
             }
         })
     })

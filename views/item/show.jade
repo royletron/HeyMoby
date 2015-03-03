@@ -1,0 +1,29 @@
+extends ../layout
+
+block header
+  .deep-orange.header(style="margin-bottom:0px;")
+    .container.white-text
+      h2 #{item.name} <small>in #{collection.name}</small>
+  .deep-orange.lighten-4.header(style="padding-bottom:0px;")
+    .container
+      a.waves-effect.waves-light.btn.light-blue.darken-1(href="/collection/#{collection.slug}/items/add") <i class="mdi-content-add left"></i>Add item
+      | &nbsp;
+      a.waves-effect.waves-light.btn.red.darken-1(href="/collection/#{collection.slug}/item/#{item._id}/delete") <i class="mdi-action-delete left"></i> Delete
+
+block content
+  h2 Images
+  .row
+    for image in item.images
+      .col.s6
+        .card
+          .card-image
+            img.materialboxed(src="#{image.url}")
+          .card-action
+            a(href="javascript:deleteImage('#{image._id}')") Delete
+
+
+block script
+  script
+    function deleteImage(imageId){
+    
+    }

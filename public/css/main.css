@@ -6,6 +6,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  background-color: #fcfcfc;
 }
 
 .small-avatar
@@ -57,11 +58,10 @@ nav.top-nav {
   height: 122px;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none; 
+  box-shadow: none;
 }
 
 .page-title {
   line-height: 122px;
-  font-size: 48px; 
+  font-size: 48px;
 }
-
