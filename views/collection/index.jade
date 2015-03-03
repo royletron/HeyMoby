@@ -10,7 +10,14 @@ block content
   if collections.length == 0
     p There are no collections at present.
   else
-    .collection
+    ul.collection
       for collection in collections
-        a.collection-item(href="/collection/#{collection.slug}")= collection.name
+        li.collection-item.avatar
+          a.collection-item(href="/collection/#{collection.slug}")
+            if(collection.items[0] != undefined)
+              img.blue.circle(src="#{collection.items[0].images[0].thumb}")
+            else
+              i.mdi-action-assessment.circle.green
+            span.title= collection.name
+            p #{collection.items.length} items
   a.waves-effect.waves-light.btn(href="/collections/add") Add collection

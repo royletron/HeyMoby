@@ -19,7 +19,7 @@
     "tests"
   ],
   "dependencies": {
-    "materialize": "~0.95.2",
+    "materialize": "~0.95.3",
     "howler": "~1.1.25"
   }
 }

@@ -133,6 +133,8 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
  app.get('/collection/:slug/items/add', itemController.add);
  app.post('/collection/:slug/items/add', itemController.create);
  app.get('/collection/:slug/item/:id', itemController.show);
+ app.get('/collection/:slug/item/:id/image/:image/delete', itemController.image_delete);
+ app.post('/collection/:slug/item/:id/image', itemController.image_add);
 
 /**
  * Upload routes.

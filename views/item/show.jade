@@ -6,9 +6,11 @@ block header
       h2 #{item.name} <small>in #{collection.name}</small>
   .deep-orange.lighten-4.header(style="padding-bottom:0px;")
     .container
-      a.waves-effect.waves-light.btn.light-blue.darken-1(href="/collection/#{collection.slug}/items/add") <i class="mdi-content-add left"></i>Add item
+      a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#delete_modal") <i class="mdi-content-add left"></i>Add image
       | &nbsp;
       a.waves-effect.waves-light.btn.red.darken-1(href="/collection/#{collection.slug}/item/#{item._id}/delete") <i class="mdi-action-delete left"></i> Delete
+      | &nbsp;
+      a.waves-effect.waves-light.btn-flat(href="/collection/#{collection.slug}/") <i class="mdi-hardware-keyboard-return left"></i>Back to collection
 
 block content
   h2 Images
@@ -20,10 +22,20 @@ block content
             img.materialboxed(src="#{image.url}")
           .card-action
             a(href="javascript:deleteImage('#{image._id}')") Delete
-
-
+  #delete_modal.modal.modal-fixed-footer
+    form(action='/collection/#{collection.slug}/item/#{item._id}/image', method='POST', enctype="multipart/form-data")
+      .modal-content
+        h4 Add image
+        input(type='hidden', name='_csrf', value=_csrf)
+        .file-field.input-field
+          input.file-path.validate(type="text")
+          .btn
+            span File
+            input(name="files", type="file")
+      .modal-footer
+        button(action="submit", class="waves-effect waves-light light-blue darken-1 btn") Add
 block script
-  script
+  script.
     function deleteImage(imageId){
-    
+      toast("<span>Are you sure you want to delete?</span><a class='btn-flat yellow-text' href='/collection/#{collection.slug}/item/#{item._id}/image/"+imageId+"/delete'>Yes<a>", 10000);
     }

@@ -43,7 +43,6 @@ exports.create = function(req, res, next){
 		     x:0, y:0
 			  }).then(
 			    function(image) {
-			    	console.log(image);
 						item.images.push({url: "/uploads/"+file.name, thumb: '/uploads/thumbs/'+file.name, user: req.user.id});
 						cb();
 			    },
@@ -70,17 +69,54 @@ exports.create = function(req, res, next){
 	});
 }
 
+exports.image_add = function(req, res, next){
+	Collection.findOne({slug: req.params.slug}, function(err, collection){
+		if(err) return next(err);
+		var file = req.files.files;
+		easyimg.rescrop({
+			src:file.path, dst:'public/uploads/thumbs/'+file.name,
+			width:250, height:250,
+			x:0, y:0
+		}).then(
+			function(image) {
+				collection.items.id(req.params.id).images.push({url: "/uploads/"+file.name, thumb: '/uploads/thumbs/'+file.name, user: req.user.id});
+				collection.save(function(err){
+					if(err) return next(err);
+					req.flash('success', { msg: 'Success! Image created.' });
+					res.redirect('/collection/'+collection.slug+'/item/'+req.params.id);
+				})
+			},
+			function (err) {
+				return next(err);
+			}
+		);
+	})
+}
+
+exports.image_delete = function(req, res, next){
+	Collection.findOne({slug: req.params.slug}, function(err, collection){
+		if(err) return next(err);
+		var image = collection.items.id(req.params.id).images.id(req.params.image).remove()
+		collection.save(function(err){
+			if(err) return next(err);
+			req.flash('success', { msg: 'Success! Image deleted.' });
+			res.redirect('/collection/'+collection.slug+'/item/'+req.params.id);
+		})
+	})
+}
+
 exports.show = function(req, res, next){
 	Collection.findOne({slug: req.params.slug}, function(err, collection){
-        if(err) return next(err);
-        _.each(collection.items, function(item, idx){
-            if(String(item._id) == String(req.params.id)){
-                res.render('item/show', {
-                    item: item,
-                    collection: collection,
-                    title: item.name
-                });
-            }
-        })
-    })
+    if(err) return next(err);
+		var item = collection.items.id(req.params.id)
+		if(item != undefined){
+      res.render('item/show', {
+        item: item,
+        collection: collection,
+        title: item.name
+      });
+		}else{
+			res.redirect('/collection/'+collection.slug);
+		}
+  })
 }

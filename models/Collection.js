@@ -21,7 +21,5 @@ var collectionSchema = new mongoose.Schema({
   user: {type: mongoose.Schema.ObjectId, ref: 'User', required: true}
 });
 
-itemSchema.plugin(slugin, {source: 'name'})
-
 collectionSchema.plugin(slugin, {source: 'name'});
 module.exports = mongoose.model('Collection', collectionSchema);
