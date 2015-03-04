@@ -125,29 +125,29 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
  */
 
  app.get('/collections', collectionController.index)
- app.get('/collections/add', collectionController.add);
- app.post('/collections/add', collectionController.create);
+ app.get('/collections/add', passportConf.isAuthenticated, collectionController.add);
+ app.post('/collections/add', passportConf.isAuthenticated, collectionController.create);
  app.get('/collection/:slug', collectionController.show);
- app.post('/collection/:slug', collectionController.update);
+ app.post('/collection/:slug', passportConf.isAuthenticated, collectionController.update);
  app.get('/collection/:slug/play', collectionController.play);
 
 /**
  * Item routes.
  */
 
- app.get('/collection/:slug/items/add', itemController.add);
- app.post('/collection/:slug/items/add', itemController.create);
+ app.get('/collection/:slug/items/add', passportConf.isAuthenticated, itemController.add);
+ app.post('/collection/:slug/items/add', passportConf.isAuthenticated, itemController.create);
  app.get('/collection/:slug/item/:id', itemController.show);
- app.post('/collection/:slug/item/:id', itemController.update);
- app.get('/collection/:slug/item/:id/image/:image/delete', itemController.image_delete);
- app.post('/collection/:slug/item/:id/image', itemController.image_add);
+ app.post('/collection/:slug/item/:id', passportConf.isAuthenticated, itemController.update);
+ app.get('/collection/:slug/item/:id/image/:image/delete', passportConf.isAuthenticated, itemController.image_delete);
+ app.post('/collection/:slug/item/:id/image', passportConf.isAuthenticated, itemController.image_add);
 
 /**
  * Upload routes.
  */
 
 // app.get('/upload', uploadController.index);
-app.post('/upload', uploadController.upload)
+app.post('/upload', passportConf.isAuthenticated, uploadController.upload)
 // app.delete('/uploaded/files/:name', uploadController.delete)
 
 /**

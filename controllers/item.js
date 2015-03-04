@@ -111,7 +111,7 @@ exports.update = function(req, res, next){
 		var item = collection.items.id(req.params.id)
 		if(item != undefined){
 			item.name = req.body.name
-			item.save(function(err){
+			collection.save(function(err){
 				if(err) return next(err);
 				req.flash('success', {msg: 'Success! '+collection.name+' updated.'});
 				res.redirect('/collection/'+collection.slug+'/item/'+req.params.id);

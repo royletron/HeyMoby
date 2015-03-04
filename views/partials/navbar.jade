@@ -3,8 +3,6 @@ mixin links
     a(href='/') Home
   li(class=title=='Collections'?'active':undefined)
     a(href='/collections') Collections
-  li(class=title=='Contact'?'active':undefined)
-    a(href='/contact') Contact
   if !user
     li(class=title=='Login'?'active':undefined)
       a(href='/login') Login
@@ -48,7 +46,7 @@ nav.light-blue.lighten-1(role="navigation")
     .nav-wrapper
       a.brand-logo(href='/')
         i.mdi-file-cloud-queue
-        | &nbsp;Project name
+        | &nbsp;Moby
       ul.right.hide-on-med-and-down
         +links
       ul#nav-mobile.side-nav

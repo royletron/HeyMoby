@@ -23,6 +23,7 @@ function notifyLiveReload(event) {
 gulp.task('watch', function(){
   gulp.watch('**/*.jade', notifyLiveReload);
   gulp.watch('**/*.css', notifyLiveReload);
+  gulp.watch(['views/**/*.js', 'models/*.js', 'models/**/*.js', 'app.js', 'config/**/*.js', 'config/*.js'], ['express'])
 })
 
 gulp.task('default', ['express', 'livereload', 'watch'], function(){

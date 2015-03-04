@@ -1,10 +1,14 @@
 extends ../layout
 
 block header
-  .green.darken-1.header
+  .green.darken-1.header(style=user ? "margin-bottom:0px":"")
     .container.white-text
       h2 The Collections
       p.flow-text A <strong>collection</strong> is a group of flashcards for a specific topic.
+  if user
+    .green.lighten-4.header(style="padding-bottom:0px;")
+      .container
+        a.waves-effect.waves-light.btn(href="/collections/add") Add
 
 block content
   if collections.length == 0
@@ -19,5 +23,4 @@ block content
             else
               i.mdi-action-assessment.circle.green
             span.title= collection.name
-            p #{collection.items.length} items
-  a.waves-effect.waves-light.btn(href="/collections/add") Add collection
+            p #{collection.items.length} items collection

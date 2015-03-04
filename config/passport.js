@@ -404,6 +404,7 @@ passport.use('venmo', new OAuth2Strategy({
  */
 exports.isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) return next();
+  req.flash('error', { msg: 'Sorry you need to be logged in to do that.' });
   res.redirect('/login');
 };
 

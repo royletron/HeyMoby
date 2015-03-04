@@ -1,24 +1,27 @@
 extends ../layout
 
+block header
+  .teal.darken-1.header
+    .container.white-text
+      h2 Sign Up
+      p.flow-text This is for teachers or parents. Once signed up you can create codes for your children to access the resources you set them.
+
 block content
-  .page-header
-    h3 Sign up
   form.form-horizontal(id='signup-form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
-    .form-group
-      label.col-sm-3.control-label(for='email') Email
-      .col-sm-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus)
-    .form-group
-      label.col-sm-3.control-label(for='password') Password
-      .col-sm-7
-        input.form-control(type='password', name='password', id='password', placeholder='Password')
-    .form-group
-      label.col-sm-3.control-label(for='confirmPassword') Confirm Password
-      .col-sm-7
-        input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password')
-    .form-group
-      .col-sm-offset-3.col-sm-7
-        button.btn.btn-success(type='submit')
-          span.ion-person-add
-          | Signup
+    .input-field
+      i.mdi-action-account-circle.prefix
+      input(type='text', name='name', id='name', placeholder='Name', autofocus)
+    .input-field
+      i.mdi-communication-email.prefix
+      input(type='email', name='email', id='email', placeholder='Email')
+    .input-field
+      i.mdi-communication-vpn-key.prefix
+      input.form-control(type='password', name='password', id='password', placeholder='Password')
+    .input-field
+      i.mdi-hardware-keyboard-control.prefix
+      input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password')
+    .input-field
+      button.waves-effect.waves-light.btn(type='submit')
+        i.mdi-action-face-unlock.right
+        | Signup

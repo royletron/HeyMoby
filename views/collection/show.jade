@@ -8,10 +8,11 @@ block header
 				small &nbsp;by #{collection.user.profile.name}
 	.yellow.lighten-4.header(style="padding-bottom:0px;")
 			.container
-				a.waves-effect.waves-light.btn.light-blue.darken-1(href="/collection/#{collection.slug}/items/add") <i class="mdi-content-add left"></i>Add item
-				| &nbsp;
-				a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#edit-modal") <i class="mdi-editor-mode-edit left"></i> Change details
-				| &nbsp;
+				if user
+					a.waves-effect.waves-light.btn.light-blue.darken-1(href="/collection/#{collection.slug}/items/add") <i class="mdi-content-add left"></i>Add item
+					| &nbsp;
+					a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#edit-modal") <i class="mdi-editor-mode-edit left"></i> Change details
+					| &nbsp;
 				a.waves-effect.waves-light.btn.light-blue.darken-1(href="/collection/#{collection.slug}/play") <i class="mdi-av-video-collection left"></i> Play
 
 	.container
@@ -42,7 +43,7 @@ block modal
 			.modal-content
 				h4 Update #{collection.name}
 				input(type='hidden', name='_csrf', value=_csrf)
-				.input-field
+				.input-field(style="margin-top:50px")
 					input(id="name", name="name", type="text", class="validate", value="#{collection.name}")
 					label(for="name") Name
 				.input-field

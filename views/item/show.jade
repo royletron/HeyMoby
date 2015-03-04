@@ -6,12 +6,13 @@ block header
       h2 #{item.name} <small>in #{collection.name}</small>
   .deep-orange.lighten-4.header(style="padding-bottom:0px;")
     .container
-      a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#delete_modal") <i class="mdi-content-add left"></i>Add image
-      | &nbsp;
-      a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#edit-modal") <i class="mdi-editor-mode-edit left"></i> Change details
-      | &nbsp;
-      a.waves-effect.waves-light.btn.red.darken-1(href="/collection/#{collection.slug}/item/#{item._id}/delete") <i class="mdi-action-delete left"></i> Delete
-      | &nbsp;
+      if user  
+        a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#delete_modal") <i class="mdi-content-add left"></i>Add image
+        | &nbsp;
+        a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#edit-modal") <i class="mdi-editor-mode-edit left"></i> Change details
+        | &nbsp;
+        a.waves-effect.waves-light.btn.red.darken-1(href="/collection/#{collection.slug}/item/#{item._id}/delete") <i class="mdi-action-delete left"></i> Delete
+        | &nbsp;
       a.waves-effect.waves-light.btn-flat(href="/collection/#{collection.slug}/") <i class="mdi-hardware-keyboard-return left"></i>Back to collection
 
 block content
@@ -22,34 +23,35 @@ block content
         .card
           .card-image
             img.materialboxed(src="#{image.url}")
-          .card-action
-            a(href="javascript:deleteImage('#{image._id}')") Delete
-  
-block modal
-  #delete_modal.modal.modal-fixed-footer
-    form(action='/collection/#{collection.slug}/item/#{item._id}/image', method='POST', enctype="multipart/form-data")
-      .modal-content
-        h4 Add image
-        input(type='hidden', name='_csrf', value=_csrf)
-        .file-field.input-field
-          input.file-path.validate(type="text")
-          .btn
-            span File
-            input(name="files", type="file")
-      .modal-footer
-        button(action="submit", class="waves-effect waves-light light-blue darken-1 btn") Add
-  #edit-modal.modal.modal-fixed-footer
-    form(action='/collection/#{collection.slug}/item/#{item._id}/', method='POST')
-      .modal-content
-        h4 Update #{item.name}
-        input(type='hidden', name='_csrf', value=_csrf)
-        .input-field
-          input(id="name", name="name", type="text", class="validate", value="#{item.name}")
-          label(for="name") Name
-      .modal-footer
-        button(action="submit", class="waves-effect waves-light light-blue darken-1 btn") Update        
-block script
-  script.
-    function deleteImage(imageId){
-      toast("<span>Are you sure you want to delete?</span><a class='btn-flat yellow-text' href='/collection/#{collection.slug}/item/#{item._id}/image/"+imageId+"/delete'>Yes<a>", 10000);
-    }
+          if user
+            .card-action
+              a(href="javascript:deleteImage('#{image._id}')") Delete
+if user
+  block modal
+    #delete_modal.modal.modal-fixed-footer
+      form(action='/collection/#{collection.slug}/item/#{item._id}/image', method='POST', enctype="multipart/form-data")
+        .modal-content
+          h4 Add image
+          input(type='hidden', name='_csrf', value=_csrf)
+          .file-field.input-field(style="margin-top:50px")
+            input.file-path.validate(type="text")
+            .btn
+              span File
+              input(name="files", type="file")
+        .modal-footer
+          button(action="submit", class="waves-effect waves-light light-blue darken-1 btn") Add
+    #edit-modal.modal.modal-fixed-footer
+      form(action='/collection/#{collection.slug}/item/#{item._id}/', method='POST')
+        .modal-content
+          h4 Update #{item.name}
+          input(type='hidden', name='_csrf', value=_csrf)
+          .input-field(style="margin-top:50px")
+            input(id="name", name="name", type="text", class="validate", value="#{item.name}")
+            label(for="name") Name
+        .modal-footer
+          button(action="submit", class="waves-effect waves-light light-blue darken-1 btn") Update        
+  block script
+    script.
+      function deleteImage(imageId){
+        toast("<span>Are you sure you want to delete?</span><a class='btn-flat yellow-text' href='/collection/#{collection.slug}/item/#{item._id}/image/"+imageId+"/delete'>Yes<a>", 10000);
+      }
