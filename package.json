@@ -67,6 +67,7 @@
   "devDependencies": {
     "blessed": "^0.0.47",
     "chai": "^2.0.0",
+    "gulp": "^3.8.11",
     "mocha": "^2.1.0",
     "multiline": "^1.0.2",
     "supertest": "^0.15.0"

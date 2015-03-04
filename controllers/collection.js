@@ -27,6 +27,38 @@ exports.add = function(req, res) {
 };
 
 /**
+ * POST /collection/:slug/
+ * Updates the collection info
+ */
+exports.update = function(req, res, next) {
+	req.assert('name', 'Name cannot be blank').notEmpty();
+
+	var errors = req.validationErrors();
+
+	if(errors) {
+		req.flash('errors', errors)
+		return res.redirect('/collection/'+req.params.slug);
+	}
+
+	Collection.findOne({slug: req.params.slug}).populate('user').exec(function(err, collection){
+		if(collection == null){
+			res.status(400);
+		}
+		else
+		{
+			console.log(req.body);
+			collection.name = req.body.name;
+			collection.description = req.body.description;
+			collection.save(function(err){
+				if(err) return next(err);
+				req.flash('success', { msg: 'Success! '+collection.name+' updated.'});
+				res.redirect('/collection/'+collection.slug);
+			})
+		}
+	});
+}
+
+/**
  * POST /collections/add
  * Collection add post method.
  */

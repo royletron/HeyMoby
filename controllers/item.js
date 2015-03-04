@@ -105,6 +105,23 @@ exports.image_delete = function(req, res, next){
 	})
 }
 
+exports.update = function(req, res, next){
+	Collection.findOne({slug: req.params.slug}, function(err, collection){
+		if(err) return next(err);
+		var item = collection.items.id(req.params.id)
+		if(item != undefined){
+			item.name = req.body.name
+			item.save(function(err){
+				if(err) return next(err);
+				req.flash('success', {msg: 'Success! '+collection.name+' updated.'});
+				res.redirect('/collection/'+collection.slug+'/item/'+req.params.id);
+			})
+		}else{
+			res.redirect('/collection/'+collection.slug);
+		}
+	})
+}
+
 exports.show = function(req, res, next){
 	Collection.findOne({slug: req.params.slug}, function(err, collection){
     if(err) return next(err);
