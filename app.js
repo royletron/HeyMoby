@@ -20,7 +20,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 
-var MobileDetect = require('mobile-detect')
+var MobileDetect = require('mobile-detect');
 
 /**
  * Controllers (route handlers).
@@ -31,7 +31,7 @@ var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var collectionController = require('./controllers/collection');
 var itemController = require('./controllers/item');
-var uploadController = require('./controllers/upload')
+var uploadController = require('./controllers/upload');
 
 /**
  * API keys and Passport configuration.
@@ -93,6 +93,10 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+
+app.use(require('connect-livereload')({
+    port: 4002
+  }));
 
 /**
  * Primary app routes.
