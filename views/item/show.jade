@@ -7,9 +7,11 @@ block header
   .deep-orange.lighten-4.header(style="padding-bottom:0px;")
     .container
       if user  
-        a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#delete_modal") <i class="mdi-content-add left"></i>Add image
+        a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#add_image_modal") <i class="mdi-content-add left"></i>Image
         | &nbsp;
-        a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#edit-modal") <i class="mdi-editor-mode-edit left"></i> Change details
+        a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#add_sound_modal") <i class="mdi-content-add left"></i>Sound
+        | &nbsp;
+        a.waves-effect.waves-light.btn.light-blue.darken-1.modal-trigger(href="#edit-modal") <i class="mdi-editor-mode-edit left"></i> Edit
         | &nbsp;
         a.waves-effect.waves-light.btn.red.darken-1(href="/collection/#{collection.slug}/item/#{item._id}/delete") <i class="mdi-action-delete left"></i> Delete
         | &nbsp;
@@ -26,14 +28,39 @@ block content
           if user
             .card-action
               a(href="javascript:deleteImage('#{image._id}')") Delete
+  h2 Sounds
+  if item.sounds.length == 0
+    p <strong>No sounds yet</strong>
+  else
+    .row
+      for sound in item.sounds
+        .col.s6
+          .card
+            .card-image.wavesurfer(data-url="#{sound.url}")
+
+            if user
+              .card-action
+                a(href="javascript:deleteSound('#{sound._id}')") Delete
 if user
   block modal
-    #delete_modal.modal.modal-fixed-footer
+    #add_image_modal.modal.modal-fixed-footer
       form(action='/collection/#{collection.slug}/item/#{item._id}/image', method='POST', enctype="multipart/form-data")
         .modal-content
           h4 Add image
           input(type='hidden', name='_csrf', value=_csrf)
           .file-field.input-field(style="margin-top:50px")
+            input.file-path.validate(type="text")
+            .btn
+              span File
+              input(name="files", type="file")
+        .modal-footer
+          button(action="submit", class="waves-effect waves-light light-blue darken-1 btn") Add
+    #add_sound_modal.modal.modal-fixed-footer
+      form(action='/collection/#{collection.slug}/item/#{item._id}/sound', method='POST', enctype="multipart/form-data")
+        .modal-content
+          h4 Add sound
+          input(type='hidden', name='_csrf', value=_csrf)
+          .file-field.input-field(style="margin-top:50px;")
             input.file-path.validate(type="text")
             .btn
               span File

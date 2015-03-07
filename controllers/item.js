@@ -93,6 +93,20 @@ exports.image_add = function(req, res, next){
 	})
 }
 
+exports.sound_add = function(req, res, next){
+    Collection.findOne({slug: req.params.slug}, function(err, collection){
+        if(err) return next(err);
+        var file = req.files.files;
+        collection.items.id(req.params.id).sounds.push({url: "/uploads/"+file.name, user: req.user.id})
+        collection.save(function(err){
+            if(err) return next(err);
+            req.flash('success', { msg: 'Success! Sound created.'});
+            res.redirect('/collection/'+collection.slug+'/item/'+req.params.id);
+        })
+    })
+}
+
+
 exports.image_delete = function(req, res, next){
 	Collection.findOne({slug: req.params.slug}, function(err, collection){
 		if(err) return next(err);

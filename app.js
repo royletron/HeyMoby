@@ -141,6 +141,7 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
  app.post('/collection/:slug/item/:id', passportConf.isAuthenticated, itemController.update);
  app.get('/collection/:slug/item/:id/image/:image/delete', passportConf.isAuthenticated, itemController.image_delete);
  app.post('/collection/:slug/item/:id/image', passportConf.isAuthenticated, itemController.image_add);
+ app.post('/collection/:slug/item/:id/sound', passportConf.isAuthenticated, itemController.sound_add);
 
 /**
  * Upload routes.
