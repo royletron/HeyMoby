@@ -27,7 +27,7 @@ block content
             img.materialboxed(src="#{image.url}")
           if user
             .card-action
-              a(href="javascript:deleteImage('#{image._id}')") Delete
+              a(href="javascript:deleteItem('#{image._id}', 'image')") Delete
   h2 Sounds
   if item.sounds.length == 0
     p <strong>No sounds yet</strong>
@@ -38,9 +38,10 @@ block content
           .card
             .card-image.wavesurfer(data-url="#{sound.url}")
 
-            if user
-              .card-action
-                a(href="javascript:deleteSound('#{sound._id}')") Delete
+            .card-action
+              a(class="play-wave") Play
+              if user
+                a(href="javascript:deleteItem('#{sound._id}', 'sound')") Delete
 if user
   block modal
     #add_image_modal.modal.modal-fixed-footer
@@ -79,6 +80,12 @@ if user
           button(action="submit", class="waves-effect waves-light light-blue darken-1 btn") Update        
   block script
     script.
-      function deleteImage(imageId){
-        toast("<span>Are you sure you want to delete?</span><a class='btn-flat yellow-text' href='/collection/#{collection.slug}/item/#{item._id}/image/"+imageId+"/delete'>Yes<a>", 10000);
+      $(document).ready(function(){
+        $('.play-wave').click(function(e){
+          $(e.target).parent().siblings('.card-image').data('wavesurfer').play();
+        })
+      })
+      function deleteItem(itemId, path){
+        toast("<span>Are you sure you want to delete?</span><a class='btn-flat yellow-text' href='/collection/#{collection.slug}/item/#{item._id}/"+path+"/"+itemId+"/delete'>Yes<a>", 10000);
       }
+

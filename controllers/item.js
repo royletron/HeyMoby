@@ -119,6 +119,18 @@ exports.image_delete = function(req, res, next){
 	})
 }
 
+exports.sound_delete = function(req, res, next){
+    Collection.findOne({slug: req.params.slug}, function(err, collection){
+        if(err) return next(err);
+        var sound =  collection.items.id(req.params.id).sounds.id(req.params.sound).remove()
+        collection.save(function(err){
+            if(err) return next(err);
+            req.flash('success', {msg: 'Success! Sound deleted.'});
+            res.redirect('/collection/'+collection.slug+'/item/'+req.params.id);
+        })
+    })
+}
+
 exports.update = function(req, res, next){
 	Collection.findOne({slug: req.params.slug}, function(err, collection){
 		if(err) return next(err);

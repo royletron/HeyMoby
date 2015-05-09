@@ -5,13 +5,12 @@ $(document).ready(function(){
 	$('.modal-trigger').leanModal();
     $.each($('.wavesurfer'), function(idx, item){
        var wavesurfer = Object.create(WaveSurfer);
-       console.log(item);
         wavesurfer.init({
             container: item,
             waveColor: 'violet',
             progressColor: 'purple'
         });
-
+        $(item).data('wavesurfer', wavesurfer)
         wavesurfer.load($(item).data('url'));
     })
 });
